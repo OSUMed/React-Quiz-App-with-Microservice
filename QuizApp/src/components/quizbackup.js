@@ -1,13 +1,10 @@
 import "../App.css";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { QuizContext } from "../helpers/context";
 import { Questions } from "../helpers/questions";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import axios from "axios";
-import FormData from "form-data";
-import fs from "fs";
 
 function Quiz() {
   const [questionNumber, setquestionNumber] = useState(0);
@@ -16,20 +13,17 @@ function Quiz() {
   const [showQuiz, setShowQuiz] = useState("show");
   const [showWiki, setShowWiki] = useState("hide");
   const [wikiAnswer, setWikiAnswer] = useState("");
-  const [showWikiAnswer, setShowWikiAnswer] = useState([]);
+  const [showWikiAnswer, setShowWikiAnswer] = useState("");
   const [userPicked, setUserPicked] = useState("");
   const [checkAnswer, setCheckAnswer] = useState("");
   const [axiosAnswer, setaxiosAnswer] = useState("");
   const { points, setPoints, userName } = useContext(QuizContext);
-  const [loading, setLoading] = useState(false);
-  const componentMounted = useRef(true); // (3) component is mounted
 
   useEffect(() => {
     let state = Questions[questionNumber].prompt.slice(
       Questions[questionNumber].prompt.lastIndexOf(" ") + 1,
       -1
     );
-    console.log("This is the input: ", state);
     fetch(
       "http://flip1.engr.oregonstate.edu:4753/" +
         Questions[questionNumber][Questions[questionNumber].answer] +
@@ -38,53 +32,10 @@ function Quiz() {
     )
       .then((res) => res.json())
       .then((data) => {
-        if (componentMounted.current) {
-          // (5) is component still mounted?
-          console.log("the data is: ", data.Main);
-          setShowWikiAnswer((showWikiAnswer) => [...showWikiAnswer, data.Main]); // (1) write data to state
-          setLoading(false); // (2) write some value to state
-        }
-        return () => {
-          // This code runs when component is unmounted
-          componentMounted.current = false; // (4) set it to false when we leave the page
-        };
+        console.log("the data is: ", data);
+        setShowWikiAnswer(data.Main);
       });
   }, []);
-
-  // useEffect(() => {
-  //   const image = {
-  //     image: "azura.jpg",
-  //     new_name: "test2.jpg",
-  //     width: 500,
-  //     height: 500,
-  //   };
-  //   fetch("http://34.71.171.250/upload", {
-  //     method: "POST", // or 'PUT'
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(image),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   const article = {
-  //     image: "azura.jpg",
-  //     new_name: "test2.jpg",
-  //     width: 500,
-  //     height: 500,
-  //   };
-  //   axios
-  //     .post("http://34.71.171.250/upload", article)
-  //     .then((response) => console.log("image checker: ", response));
-  // }, []);
 
   const openWiki = () => {
     if (Questions[questionNumber].answer === userAnswerChoice) {
@@ -141,7 +92,7 @@ function Quiz() {
         ",_" +
         state
     ).then((response) => {
-      console.log("Check answer: ", response.data);
+      console.log(response.data.Main);
       setShowWikiAnswer(response.data.Main);
     });
 
@@ -232,8 +183,8 @@ function Quiz() {
           <h4>
             The correct answer is: {Questions[questionNumber][wikiAnswer]}
           </h4>
-          <h4>More information:</h4>
-          <p>{showWikiAnswer}</p>
+          <h4>Wikipedia Article(Introduction Section)</h4>
+          <p>More information: {{ showWikiAnswer }}</p>
           <h4 className="box">Image.png here</h4>
           <button
             onClick={() => {
@@ -249,7 +200,7 @@ function Quiz() {
         <div className="Quiz">
           <h1>Quiz is Finished</h1>
           <h3>
-            {userName}, you got {points} out of {Questions.length} right!
+            {userName}, your final score is {points} / {Questions.length} !
           </h3>
           <Link to="/home">
             <button

@@ -10,7 +10,7 @@ export const Questions = [
   },
   {
     id: 2,
-    prompt: "What is the capitol of the state Alabama?",
+    prompt: "What is the capitol of the state Alaska?",
     choiceA: "Montgomery",
     choiceB: "Juneau",
     choiceC: "Annapolis",
@@ -46,7 +46,7 @@ export const Questions = [
   },
   {
     id: 6,
-    prompt: "What is the capitol of the state New York?",
+    prompt: "What is the capitol of the state New_York?",
     choiceA: "Montgomery",
     choiceB: "Phoenix",
     choiceC: "Annapolis",
@@ -55,7 +55,7 @@ export const Questions = [
   },
   {
     id: 7,
-    prompt: "What is the capitol of the state Rhode Island?",
+    prompt: "What is the capitol of the state Rhode_Island?",
     choiceA: "Montgomery",
     choiceB: "Providence",
     choiceC: "Harrisburg",
