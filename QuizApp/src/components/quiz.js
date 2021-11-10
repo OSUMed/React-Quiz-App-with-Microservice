@@ -20,6 +20,7 @@ function Quiz() {
   const [userPicked, setUserPicked] = useState("");
   const [checkAnswer, setCheckAnswer] = useState("");
   const [axiosAnswer, setaxiosAnswer] = useState("");
+  const [imageFile, setImageFile] = useState("");
   const { points, setPoints, userName } = useContext(QuizContext);
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true); // (3) component is mounted
@@ -51,6 +52,15 @@ function Quiz() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:4000/")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("lets print this: ", data.holdURL);
+        setImageFile(data.holdURL);
+      });
+  }, []);
+
   // useEffect(() => {
   //   const image = {
   //     image: "azura.jpg",
@@ -75,15 +85,34 @@ function Quiz() {
   // }, []);
 
   // useEffect(() => {
-  //   const article = {
-  //     image: "azura.jpg",
-  //     new_name: "test2.jpg",
-  //     width: 500,
-  //     height: 500,
-  //   };
-  //   axios
-  //     .post("http://34.71.171.250/upload", article)
-  //     .then((response) => console.log("image checker: ", response));
+  //   let state = Questions[questionNumber].prompt.slice(
+  //     Questions[questionNumber].prompt.lastIndexOf(" ") + 1,
+  //     -1
+  //   );
+  //   console.log("This is the input: ", "http://localhost:4000/" + state);
+  //  // fetch("http://localhost:4000/" + state);
+  //   // .then((res) => res.json())
+  //   // .then((data) => {
+  //   //   if (componentMounted.current) {
+  //   //     // (5) is component still mounted?
+  //   //     console.log("the data is: ", data.Main);
+  //   //     setImageFile(); // (1) write data to state
+  //   //     setLoading(false); // (2) write some value to state
+  //   //   }
+  //   //   return () => {
+  //   //     // This code runs when component is unmounted
+  //   //     componentMounted.current = false; // (4) set it to false when we leave the page
+  //   //   };
+  //   // });
+  // }, []);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:4000/")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("lets print this: ", data.holdURL);
+  //       setImageFile(data.holdURL);
+  //     });
   // }, []);
 
   const openWiki = () => {
@@ -223,6 +252,12 @@ function Quiz() {
             <button className="button2" onClick={openWiki}>
               Submit Answer
             </button>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div>
+              <img src={imageFile} />
+            </div>
           </div>
         </div>
       )}
