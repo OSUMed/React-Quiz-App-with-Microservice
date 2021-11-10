@@ -25,13 +25,16 @@ function Quiz() {
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true); // (3) component is mounted
 
+  // Wikipedia scrapper service will be called each time we load the page in /quiz: 
   useEffect(() => {
+    // First we parse/slice out the correct word for the last part of our wikipedia search(the state)
     let state = Questions[questionNumber].prompt.slice(
       Questions[questionNumber].prompt.lastIndexOf(" ") + 1,
       -1
-    );
-    console.log("This is the input: ", state);
-    fetch(
+      );
+      console.log("This is the input: ", state);
+      fetch(
+      // We create our parameter here by using the specific type of way wikipedia search URL's are structured: word one + ",_" + word2..
       "http://flip1.engr.oregonstate.edu:4753/" +
         Questions[questionNumber][Questions[questionNumber].answer] +
         ",_" +
@@ -39,11 +42,12 @@ function Quiz() {
     )
       .then((res) => res.json())
       .then((data) => {
+        // ComponentMounted logic is used because of an error: since some states are being rendered without being shown:
         if (componentMounted.current) {
           // (5) is component still mounted?
           console.log("the data is: ", data.Main);
-          setShowWikiAnswer((showWikiAnswer) => [...showWikiAnswer, data.Main]); // (1) write data to state
-          setLoading(false); // (2) write some value to state
+          setShowWikiAnswer((showWikiAnswer) => [...showWikiAnswer, data.Main]); // We collect our wikipedia article here
+          setLoading(false); 
         }
         return () => {
           // This code runs when component is unmounted
@@ -52,6 +56,7 @@ function Quiz() {
       });
   }, []);
 
+  // Here we talk to our backend to collect the microservice returned image URL: No parameters needed
   useEffect(() => {
     fetch("http://localhost:4000/")
       .then((res) => res.json())
@@ -61,60 +66,8 @@ function Quiz() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   const image = {
-  //     image: "azura.jpg",
-  //     new_name: "test2.jpg",
-  //     width: 500,
-  //     height: 500,
-  //   };
-  //   fetch("http://34.71.171.250/upload", {
-  //     method: "POST", // or 'PUT'
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(image),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   let state = Questions[questionNumber].prompt.slice(
-  //     Questions[questionNumber].prompt.lastIndexOf(" ") + 1,
-  //     -1
-  //   );
-  //   console.log("This is the input: ", "http://localhost:4000/" + state);
-  //  // fetch("http://localhost:4000/" + state);
-  //   // .then((res) => res.json())
-  //   // .then((data) => {
-  //   //   if (componentMounted.current) {
-  //   //     // (5) is component still mounted?
-  //   //     console.log("the data is: ", data.Main);
-  //   //     setImageFile(); // (1) write data to state
-  //   //     setLoading(false); // (2) write some value to state
-  //   //   }
-  //   //   return () => {
-  //   //     // This code runs when component is unmounted
-  //   //     componentMounted.current = false; // (4) set it to false when we leave the page
-  //   //   };
-  //   // });
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:4000/")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("lets print this: ", data.holdURL);
-  //       setImageFile(data.holdURL);
-  //     });
-  // }, []);
-
+    // We always have one thing open: the quiz or the wikipedia/answer explanation. They work in a switch fashion where one is 
+    // hiding while the other is showing:
   const openWiki = () => {
     if (Questions[questionNumber].answer === userAnswerChoice) {
       setPoints(points + 1);
@@ -139,30 +92,6 @@ function Quiz() {
       Questions[questionNumber][Questions[questionNumber].answer] + ",_" + state
     );
 
-    // write two axios calls: wiki & image:
-
-    // Axios call for wiki:
-    // console.log(
-    //   "Check answer first: " +
-    //     Questions[questionNumber][Questions[questionNumber].answer] +
-    //     ",_",
-    //   state
-    // );
-
-    // Axios.get("http://flip3.engr.oregonstate.edu:5152/amount/4/length/5").then(
-    //   (res) => {
-    //     console.log(res.data);
-    //   }
-    // );
-    // console.log("Check axios answer first: ", axiosAnswer);
-    // console.log("http://flip1.engr.oregonstate.edu:4753/" + "banana");
-    // Axios.get("http://flip1.engr.oregonstate.edu:4753/" + "banana").then(
-    //   (response) => {
-    //     console.log(response);
-    //     //setRecords(response.data);
-    //   }
-    // );
-
     console.log("Check axios answer first: ", axiosAnswer);
     Axios.get(
       "http://flip1.engr.oregonstate.edu:4753/" +
@@ -174,25 +103,9 @@ function Quiz() {
       setShowWikiAnswer(response.data.Main);
     });
 
-    // Axios.post('http://34.71.171.250/upload', {
-    //   image: 'azura.jpg',
-    //   new_name: 'test2.jpg',
-    //   width: 500,
-    //   height: 500
-    // })
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-
-    // // Axios call for image:
-    // Axios.get("https://jsonplaceholder.typicode.com/todos/1").then(
-    //   (response) => {
-    //     console.log(response.data);
-    //     //setRecords(response.data);
-    //   }
-    // );
   };
 
+  // We flip the switch to close the wiki, we set question number plus one so that when the quiz returns, it renders the next question instead:
   const closeWiki = () => {
     setShowQuiz("show");
     setShowWiki("hide");
