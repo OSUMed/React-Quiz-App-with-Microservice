@@ -6,7 +6,7 @@ function NavBar() {
   const [help, setHelp] = useState(false);
   const [helpguide, setHelpGuide] = useState(false);
 
-  // We use a "mouse enter" & "mouse leave" toggle to help show the user guides and a contact us line:
+  // We use "mouse enter" & "mouse leave" javascript functions to toggle to help show the user guides and a contact us line:
   return (
     <div className="App">
       <button
@@ -16,6 +16,8 @@ function NavBar() {
         Need Help? Hover over here for Guide!
       </button>
 
+      {/* We use the && operator to show elements: if the first part is true and the second part is true, then the second part is rendered.
+      Same logic is used throughout the program. */}
       {helpguide && <div className="box2">GUIDE HERE</div>}
 
       <br></br>

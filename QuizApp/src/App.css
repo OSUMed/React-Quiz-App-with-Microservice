@@ -49,3 +49,8 @@
   background: rgb(155, 137, 208);
   margin-left: 550px;
 }
+
+.abcdButtons {
+  margin: 15px;
+  max-width: 30%;
+}

@@ -1,11 +1,12 @@
 import "../App.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { QuizContext } from "../helpers/context";
 import { Link } from "react-router-dom";
 
 function Menu() {
-  // Intialize variables and our useContext variable:
+  // object deconstruction to take out the necessary variables from our useContext hook:
   const { setUserName } = useContext(QuizContext);
+  // Intialize variables and our useContext variable:
   const [homeImageFile, setHomeImageFile] = useState("");
 
   // Here the user enters their name so we can display it later. Also we render our image file here too:

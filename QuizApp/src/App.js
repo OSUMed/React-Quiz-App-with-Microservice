@@ -11,7 +11,7 @@ import "./App.css";
 
 function App() {
   
-  // Intialize variables and send them into our Provider so our consumer component can use these variables later on:
+  // Intialize variables and send them into our Provider so our consumer hook can use these variables later on:
   const [userName, setUserName] = useState("");
   const [points, setPoints] = useState(0);
 
@@ -33,6 +33,8 @@ function App() {
           <Route path="/createquiz" component={CreateQuiz}></Route>
           <Route path="/home" component={Menu}></Route>
           <Redirect from="/" exact to="/home" />
+          
+          {/* Redirect to home if any other endpoint is put in the url */}
           <Redirect to="/home" />
         </Switch>
         <NavBar />
