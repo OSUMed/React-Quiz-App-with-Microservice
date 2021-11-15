@@ -1,9 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState } from "react";
 
 function NavBar() {
+  // Intiailize the variables so we can use them to render later:
   const [help, setHelp] = useState(false);
   const [helpguide, setHelpGuide] = useState(false);
+
+  // We use a "mouse enter" & "mouse leave" toggle to help show the user guides and a contact us line:
   return (
     <div className="App">
       <button
@@ -28,5 +31,3 @@ function NavBar() {
 }
 
 export default NavBar;
-
-

@@ -1,4 +1,7 @@
 export const Questions = [
+
+  // Here we create a JSON object of our questions and answers with an option for the correct answer. Then we simply can use
+  // javascript to access each member as needed:
   {
     id: 1,
     prompt: "What is the capitol of the state Alabama?",

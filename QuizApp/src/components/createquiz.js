@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { NewQuestions } from "../helpers/newquestions";
 
 function CreateQuiz() {
   const [ahelp, asetHelp] = useState(false);

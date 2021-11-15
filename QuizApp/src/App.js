@@ -10,6 +10,8 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
+  
+  // Intialize variables and send them into our Provider so our consumer component can use these variables later on:
   const [userName, setUserName] = useState("");
   const [points, setPoints] = useState(0);
 
@@ -23,6 +25,7 @@ function App() {
       }}
     >
       <div>
+      {/* Here we set up the logic for our link navigation: */}
       <NavBarTop />
         <Switch>
           <Route path="/menu" component={Menu}></Route>

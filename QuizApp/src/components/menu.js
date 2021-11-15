@@ -4,18 +4,11 @@ import { QuizContext } from "../helpers/context";
 import { Link } from "react-router-dom";
 
 function Menu() {
+  // Intialize variables and our useContext variable:
   const { setUserName } = useContext(QuizContext);
   const [homeImageFile, setHomeImageFile] = useState("");
-  const [space, setSpace] = useState("\n");
-  useEffect(() => {
-    fetch("http://localhost:4000/")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("lets print this: ", data.holdURL);
-        setHomeImageFile(data.holdURL);
-      });
-  }, []);
 
+  // Here the user enters their name so we can display it later. Also we render our image file here too:
   return (
     <div>
       <label>Enter your Name:</label>
