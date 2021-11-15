@@ -15,4 +15,4 @@ Quiz App folder:
 In server folder: 
   server.js
   
-Most of the code is in quiz.js
+Most of my code is in quiz.js
