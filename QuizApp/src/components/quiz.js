@@ -32,9 +32,9 @@ function Quiz() {
       Questions[questionNumber].prompt.lastIndexOf(" ") + 1,
       -1
     );
-    console.log(
-      Questions[questionNumber][Questions[questionNumber].answer] + ",_" + state
-    );
+    // console.log(
+    //   Questions[questionNumber][Questions[questionNumber].answer] + ",_" + state
+    // );
 
     fetch(
       // We create our parameter here by using the specific type of way wikipedia search URL's are structured: word one + ",_" + word2..
