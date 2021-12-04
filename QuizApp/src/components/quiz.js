@@ -35,7 +35,7 @@ function Quiz() {
     console.log(
       Questions[questionNumber][Questions[questionNumber].answer] + ",_" + state
     );
-    // Here we use a HTTPS Request to get wikipedia data for each call:
+
     fetch(
       // We create our parameter here by using the specific type of way wikipedia search URL's are structured: word one + ",_" + word2..
       "http://flip1.engr.oregonstate.edu:4753/" +
